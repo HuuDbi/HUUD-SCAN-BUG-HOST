@@ -62,10 +62,10 @@ namespace ParallelizationDemo
             Console.ResetColor();
 
             Console.WriteLine("Selecione a operadora desejada:");
-            Console.WriteLine("1. OPERADORA1");
-            Console.WriteLine("2. OPERADORA2");
-            Console.WriteLine("3. OPERADORA3");
-            Console.WriteLine("4. OPERADORA4");
+            Console.WriteLine("1. OI");
+            Console.WriteLine("2. VIVO");
+            Console.WriteLine("3. TIM");
+            Console.WriteLine("4. CLARO");
             Console.WriteLine("5. OUTRA OPERADORA");
             Console.Write("Informe o número da operadora: ");
             int operadoraSelecionada = int.Parse(Console.ReadLine());
@@ -198,7 +198,7 @@ namespace ParallelizationDemo
 
                 int timeoutpayload = (int)settings["timeoutpayload"];
 
-                int thread = (int)settings["thread"];
+                int thread = Math.Min((int)settings["thread"], 10);
 
                 List<string> meuhost = settings["meuhost"].ToObject<List<string>>();
 
@@ -299,7 +299,6 @@ namespace ParallelizationDemo
 
                     foreach (string currentHost in meuhost)
                     {
-                        Console.Write($"HOST JSON SENDO TESTADO: " + currentHost + "\r\n");
 
                         foreach (string splitPayload in payloads)
                         {
@@ -376,17 +375,19 @@ namespace ParallelizationDemo
                                                 }
                                             }
 
-                                            string titleBarText = $"HuuDeus Scan Bug Host ( OI | VIVO | TIM | CLARO ) *** RESULTADOS RESPONSE CODE - | ";
+                                        string titleBarText = $"HuuDeus Scan Bug Host ({nomeOperadora} | {Path.GetFileName(selectedFilePath)} | Interface: {selectedInterface.Name})    ";
 
-                                            foreach (var kvp in responseCodeCounters)
+
+                                        foreach (var kvp in responseCodeCounters)
                                             {
-                                                titleBarText += $"{kvp.Key} \"{kvp.Value}\" | ";
+                                                titleBarText += $"{kvp.Key} \"{kvp.Value}\"      ";
                                             }
                                             titleBarText = titleBarText.TrimEnd('|');
 
-                                            Console.Title = titleBarText + $"PROCESSO \r{progressBar} {progress}% ";
+                                        Console.Title = $"{titleBarText} PROCESSO {progressBar} {progress}%";
 
-                                            if (verboseLevel == "1")
+
+                                        if (verboseLevel == "1")
                                             {
                                                 Console.ForegroundColor = ConsoleColor.Green;
                                                 Console.WriteLine(domain + ":" + porta);
@@ -491,6 +492,7 @@ namespace ParallelizationDemo
                                 }
                         }
 
+                        
                     }
 
                     return false;
